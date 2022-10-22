@@ -1,26 +1,59 @@
-name: Build
+name: Android Build
+
 on:
   push:
+    branches:
+     - main
+  workflow_dispatch:
 
 jobs:
-# Build job. Builds app for Android with Buildozer
-  build-android:
-    name: Build for Android
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Build with Buildozer
+      - name: Build for arm64-v8a
+        env:
+          APP_ANDROID_ARCHS: arm64-v8a
         uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
+        id: buildozer_arm64-v8a
+      
+      - uses: jungwinter/split@v2
+        id: split_arm64-v8a
         with:
-          workdir: <specify the directory of the app no don't mention this the app files are in root directory>
-          buildozer_version: stable
+          msg: ${{ steps.buildozer_arm64-v8a.outputs.filename }}
+          separator: "/"
 
-      - name: Upload artifacts
+      - name: Upload arm64-v8a artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+          name: ${{ steps.split_arm64-v8a.outputs._1 }}
+          path: ${{ steps.buildozer_arm64-v8a.outputs.filename }}
+
+#name: Build
+#on:
+#  push:
+#
+#jobs:
+# Build job. Builds app for Android with Buildozer
+#  build-android:
+#    name: Build for Android
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Build with Buildozer
+#        uses: ArtemSBulgakov/buildozer-action@v1
+#        id: buildozer
+#        with:
+#          workdir: <specify the directory of the app no don't mention this the app files are in root directory>
+#          buildozer_version: stable
+#
+#      - name: Upload artifacts
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: package
+#          path: ${{ steps.buildozer.outputs.filename }}
