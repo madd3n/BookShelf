@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # Local Folders
-Images/*
-Music/*
+!*Images/*
+!*Music/*
