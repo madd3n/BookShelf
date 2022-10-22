@@ -16,7 +16,7 @@ jobs:
         id: buildozer
         with:
           command: buildozer android debug
-          workdir: src
+          workdir: .
           buildozer_version: stable
 
       - name: Upload artifacts
