@@ -8,11 +8,12 @@ jobs:
     
     steps:
       - name: Checkout
-      - uses: actions/checkout@v2
-      - run: mkdir -p artifact
+        uses: actions/checkout@v2
+        with:
+          run: mkdir -p artifact
       - run: echo hello > artifact/BookShelf.txt
       - name: Upload
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: BookShelf
           path: artifact/BookShelf.txt
