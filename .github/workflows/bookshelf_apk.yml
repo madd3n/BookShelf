@@ -38,5 +38,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: package
+          name: BookShelf
           path: ${{ steps.buildozer.outputs.filename }}
