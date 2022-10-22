@@ -1,7 +1,7 @@
 # BookShelf
 
 Buttons:
-  - **Load images**: Will load all files in the "Images/" directory on the root of the project
+  - **Load Images**: Will load all files in the "Images/" directory on the root of the project
   - **Load Music**: Will load all files in the "Music/" directory on the root of the project
 
 Logic:
