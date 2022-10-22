@@ -93,4 +93,5 @@ class StackLayoutView(StackLayout):
 class BookShelfApp(App):
     pass
 
-BookShelfApp().run()
+if __name__ == "__main__":
+    BookShelfApp().run()
