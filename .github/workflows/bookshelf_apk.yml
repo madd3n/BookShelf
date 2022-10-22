@@ -8,6 +8,17 @@ jobs:
     
     steps:
       - name: Checkout
+      - uses: actions/checkout@v2
+      - run: mkdir -p artifact
+      - run: echo hello > artifact/BookShelf.txt
+      - name: Upload
+      - uses: actions/upload-artifact@v3
+        with:
+          name: BookShelf
+          path: artifact/BookShelf.txt
+    
+    #steps:
+      - name: Checkout
         uses: actions/checkout@v3
         
       - name: Buildozer action
