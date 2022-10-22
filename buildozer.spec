@@ -41,7 +41,7 @@ requirements = python3,kivy
 #icon.filename = %(source.dir)s/data/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
-orientation = landscape
+orientation = portrait
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 1
