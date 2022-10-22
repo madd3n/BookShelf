@@ -21,7 +21,7 @@ jobs:
           # Path to cloned repository. Set if you specified path for `actions/checkout` action.
           repository_root: .
           # Working directory where buildozer.spec is located. Set to `src` if buildozer.spec is in `src` directory
-          #workdir: ../../.
+          workdir: src
           # Version of Buildozer to install. By default installs latest release
           buildozer_version: stable
       - name: Upload artifacts
