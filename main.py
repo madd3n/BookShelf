@@ -41,7 +41,7 @@ class MainWidget(RelativeLayout):
     def load_music_button_pressed(self):
         self.reset_information()
         if(platform == "android"):
-            self.dir_to_search = os.path.join(os.getenv('INTERNAL_STORAGE'), 'Music')
+            self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
         else:
             self.dir_to_search = "Music/"
         self.MUSIC = True
