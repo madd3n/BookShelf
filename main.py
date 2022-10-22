@@ -11,6 +11,8 @@ from kivy.uix.textinput import TextInput
 from kivy.metrics import dp
 from os import walk
 from kivy.core.audio import SoundLoader
+from kivy import platform
+import os
 
 class MainWidget(RelativeLayout):
     def __init__(self, **kwargs):
@@ -38,7 +40,10 @@ class MainWidget(RelativeLayout):
         
     def load_music_button_pressed(self):
         self.reset_information()
-        self.dir_to_search = "Music/"
+        if(platform == "android"):
+            self.dir_to_search = os.path.join(os.getenv('INTERNAL_STORAGE'), 'Music')
+        else:
+            self.dir_to_search = "Music/"
         self.MUSIC = True
         self.list_all_files()
         self.load_content()
