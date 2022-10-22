@@ -1,18 +1,53 @@
 MainWidget:
 
 <MainWidget>:
-    canvas:
-        Color:
-            rgb: 1,0,0
-        Rectangle:
-            id: main_rectangle
-            pos: self.pos
-            size: self.size
-    ScrollLayoutView:
+    #ScrollLayoutView:
+    
+    GridLayoutExample:
+        id: main_grid
+        height: self.minimum_height
 
 <ScrollLayoutView@ScrollView>:
     StackLayoutView:
+        id: items_list
         size_hint: 1, None
         height: self.minimum_height
-            
+
+<GridLayoutExample>:
+    size_hint:1,1
+    pos_hint: {"center_x":0.5, "top":1}
+    
+    #TextInput:
+    #    id: text_input_txt
+    #    size_hint: 0.5,0.05
+    #    on_text_validate: root.parent.on_text_validate(self)
+    Label:
+        text: "Volume"
+        size_hint: 0.1,0.05
+    Slider:
+        id: my_slider
+        min: 0
+        max: 100
+        value: root.parent.music_volume
+        on_value: root.parent.on_slider_value(self)
+        size_hint: 0.4,0.05
+    Button:
+        text: "Load dir"
+        size_hint: 0.2,0.05
+        on_press: root.parent.load_button_pressed()
+    Button:
+        text: "Load Images"
+        size_hint: 0.2,0.05
+        on_press: root.parent.load_image_button_pressed()
+    Button:
+        text: "Load Music"
+        size_hint: 0.2,0.05
+        on_press: root.parent.load_music_button_pressed()
+    ScrollLayoutView:
+        id: scroll_view
+        size_hint: 1,1
+        
 <StackLayoutView>:
+    
+
+    
