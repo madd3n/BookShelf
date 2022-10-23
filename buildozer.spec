@@ -13,7 +13,7 @@ package.domain = pt.santos.Bookshelf
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts =
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -32,7 +32,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 
 # (list) Application requirements
-requirements = python3,kivy,ffpyplayer
+requirements = python3,kivy,ffpyplayer,android
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png

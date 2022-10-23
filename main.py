@@ -14,11 +14,8 @@ from kivy.metrics import dp
 from os import walk
 from kivy.core.audio import SoundLoader
 from kivy import platform
-from android.permissions import request_permissions, Permission
 from kivy.properties import Clock
 import os
-
-
 
 class MainWidget(RelativeLayout):
     files = []
@@ -38,7 +35,6 @@ class MainWidget(RelativeLayout):
     current_playlist_song = 0
     changing_music = False
 
-
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         
@@ -54,7 +50,7 @@ class MainWidget(RelativeLayout):
         self.reset_information()
 
         if(platform == "android"):
-            
+            from android.permissions import request_permissions, Permission
             request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
             self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
         else:
@@ -71,20 +67,20 @@ class MainWidget(RelativeLayout):
 
     def load_content(self):
         for i in range(0,len(self.files)):
+            fileName = str(self.files[i][0:self.files[i].find('.')])
+            filename_extension = self.files[i]
             if(self.create_playlist):
-                fileName = str(self.files[i][0:self.files[i].find('.')])
-                filename_extension = self.files[i]
                 self.b=ToggleButton(text=fileName, size_hint=(None,None), size=(dp(100),dp(120)))
                 self.b.bind(on_press = self.add_to_playlist)
-
-                internal_song = (fileName, filename_extension)
-                self.playlist_songs_internal.append(internal_song)
                 self.item_list.add_widget(self.b)
             else:
-                self.b=Button(text=str(self.files[i]), size_hint=(None,None), size=(dp(100),dp(120)))
+                self.b=Button(text=str(fileName), size_hint=(None,None), size=(dp(100),dp(120)))
                 if(self.MUSIC):
                     self.b.bind(on_press = self.play_sound)
                 self.item_list.add_widget(self.b)
+
+            internal_song = (fileName, filename_extension)
+            self.playlist_songs_internal.append(internal_song)
 
     def reset_information(self):
         self.files = []
@@ -120,12 +116,10 @@ class MainWidget(RelativeLayout):
         status = self.playing_music.status
         if status == 'stop' and not self.changing_music:
             self.changing_music = True
-            print('User Stopped')
-        elif status == 'play':
-            s = ''
+        #elif status == 'play':
+        #    s = ''
             #self.user_stopped = False
-        else:
-            print('End of stream')
+        #else:
 
     def add_to_playlist(self, instance):
         song = Button(text=instance.text, size_hint=(1,None), size=(dp(100),dp(50)))
