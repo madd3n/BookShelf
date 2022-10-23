@@ -13,14 +13,15 @@ MainWidget:
         size_hint: 1, None
         height: self.minimum_height
 
+<Playlist@ScrollView>:
+    StackLayoutView:
+        id: playlist_songs
+        size_hint: 1, None
+        height: self.minimum_height
+
 <GridLayoutExample>:
     size_hint:1,1
     pos_hint: {"center_x":0.5, "top":1}
-    
-    #TextInput:
-    #    id: text_input_txt
-    #    size_hint: 0.5,0.05
-    #    on_text_validate: root.parent.on_text_validate(self)
     Label:
         text: "Volume"
         size_hint: 0.1,0.05
@@ -31,23 +32,22 @@ MainWidget:
         value: root.parent.music_volume
         on_value: root.parent.on_slider_value(self)
         size_hint: 0.4,0.05
-    #Button:
-    #    text: "Load dir"
-    #    size_hint: 0.2,0.05
-    #    on_press: root.parent.load_button_pressed()
-    Button:
-        text: "Load Images"
+    ToggleButton:
+        text: "Playlist"
+        on_state: root.parent.on_toggle_button_state(self)
         size_hint: 0.2,0.05
-        on_press: root.parent.load_image_button_pressed()
+        value: root.parent.create_playlist
+        #on_press: root.parent.playlist_button_pressed()
     Button:
         text: "Load Music"
         size_hint: 0.2,0.05
         on_press: root.parent.load_music_button_pressed()
     ScrollLayoutView:
         id: scroll_view
-        size_hint: 1,1
+        size_hint: 0.56,1
+    Playlist:
+        id: playlist_view
+        size_hint: 0.44,1
         
 <StackLayoutView>:
-    
-
     
