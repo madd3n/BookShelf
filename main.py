@@ -14,8 +14,11 @@ from kivy.metrics import dp
 from os import walk
 from kivy.core.audio import SoundLoader
 from kivy import platform
+from android.permissions import request_permissions, Permission
 from kivy.properties import Clock
 import os
+
+
 
 class MainWidget(RelativeLayout):
     files = []
@@ -49,8 +52,10 @@ class MainWidget(RelativeLayout):
 
     def load_music_button_pressed(self):
         self.reset_information()
-        
+
         if(platform == "android"):
+            
+            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
             self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
         else:
             self.dir_to_search = "Music/"
