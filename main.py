@@ -15,6 +15,7 @@ from os import walk
 from kivy.core.audio import SoundLoader
 from kivy import platform
 from kivy.properties import Clock
+from jnius import autoclass
 import os
 
 class MainWidget(RelativeLayout):
@@ -51,7 +52,7 @@ class MainWidget(RelativeLayout):
 
         if(platform == "android"):
             from android.permissions import request_permissions, Permission
-            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
+            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_MEDIA_AUDIO])
             self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
         else:
             self.dir_to_search = "Music/"
@@ -89,28 +90,36 @@ class MainWidget(RelativeLayout):
         self.MUSIC = False
 
     def play_sound(self, instance):
-        if(self.is_music_playing):
-            self.playing_music.stop()
+        if create_playlist:
+            if(self.is_music_playing):
+                self.playing_music.stop()
 
-        self.is_music_playing = True
-        self.playing_music_dir = self.dir_to_search + self.find_music_in_playlist(instance)
-        self.playing_music = SoundLoader.load(self.playing_music_dir)
+            self.is_music_playing = True
+            self.playing_music_dir = self.dir_to_search + self.find_music_in_playlist(instance)
+            self.playing_music = SoundLoader.load(self.playing_music_dir)
 
-        self.playing_music.bind(on_play=self.status_update)
-        self.playing_music.bind(on_stop=self.status_update)
-        Clock.schedule_interval(self.status_update, .1)
+            self.playing_music.bind(on_play=self.status_update)
+            self.playing_music.bind(on_stop=self.status_update)
+            Clock.schedule_interval(self.status_update, .1)
 
-        if(self.music_volume > 1):
-            self.music_volume = self.music_volume / 100
+            if(self.music_volume > 1):
+                self.music_volume = self.music_volume / 100
 
-        if (self.active_button != None):
-            self.active_button.background_color = [1,1,1,1]
-        
-        self.active_button = instance
-        self.active_button.background_color = [1,0,0,1]
+            if (self.active_button != None):
+                self.active_button.background_color = [1,1,1,1]
+            
+            self.active_button = instance
+            self.active_button.background_color = [1,0,0,1]
 
-        self.playing_music.volume = self.music_volume
-        self.playing_music.play()
+            self.playing_music.volume = self.music_volume
+            self.playing_music.play()
+        else:
+            MediaPlayer = autoclass('android.media.MediaPlayer')
+            mPlayer_norm = MediaPlayer()
+            self.playing_music_dir = self.dir_to_search + self.find_music_in_playlist(instance)
+            mPlayer_norm.setDataSource(self.playing_music_dir)
+            mPlayer_norm.prepare()
+            mPlayer_norm.start()
 
     def status_update(self, instance):
         status = self.playing_music.status
