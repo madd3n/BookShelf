@@ -90,7 +90,7 @@ class MainWidget(RelativeLayout):
         self.MUSIC = False
 
     def play_sound(self, instance):
-        if create_playlist:
+        if self.create_playlist:
             if(self.is_music_playing):
                 self.playing_music.stop()
 
