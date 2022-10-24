@@ -52,7 +52,7 @@ class MainWidget(RelativeLayout):
 
         if(platform == "android"):
             from android.permissions import request_permissions, Permission
-            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_MEDIA_AUDIO])
+            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
             self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
         else:
             self.dir_to_search = "Music/"
