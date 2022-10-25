@@ -32,7 +32,7 @@ source.include_exts =
 version = 1.0
 
 # (list) Application requirements
-requirements = python3,kivy,ffpyplayer,libx264,libshine,plyer
+requirements = python3,kivy
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
@@ -60,13 +60,13 @@ osx.kivy_version = 2.1.0
 android.permissions = WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
 # (int) Android API to use
-android.api = 30
+#android.api = 30
 
 # (int) Minimum API required (8 = Android 2.2 devices)
 #android.minapi = 8
 
 # (int) Android SDK version to use
-android.sdk = 30
+#android.sdk = 30
 
 # (str) Android NDK version to use
 #android.ndk = 9
@@ -136,7 +136,7 @@ android.sdk = 30
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 2
+log_level = 0
 
 
 # -----------------------------------------------------------------------------
