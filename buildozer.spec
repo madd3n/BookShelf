@@ -60,13 +60,13 @@ osx.kivy_version = 2.1.0
 android.permissions = WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
 # (int) Android API to use
-#android.api = 28
+android.api = 30
 
 # (int) Minimum API required (8 = Android 2.2 devices)
 #android.minapi = 8
 
 # (int) Android SDK version to use
-#android.sdk = 21
+android.sdk = 30
 
 # (str) Android NDK version to use
 #android.ndk = 9
