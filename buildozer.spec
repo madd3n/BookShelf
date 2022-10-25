@@ -57,7 +57,7 @@ osx.kivy_version = 2.1.0
 #
 
 # (list) Permissions
-#android.permissions = INTERNET
+android.permissions = WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
 # (int) Android API to use
 #android.api = 28
