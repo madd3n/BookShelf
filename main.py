@@ -139,8 +139,6 @@ class MainWidget(RelativeLayout):
                 self.music_current_position += 1 
                 self.ids.main_grid.ids.music_time.value = self.music_current_position
                 self.ids.main_grid.ids.current_position_label.text = str(self.get_music_time(self.music_current_position))
-            else:
-                #Change music
         else:
             print("Music Ended")
 
