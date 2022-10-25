@@ -44,10 +44,24 @@ MainWidget:
         on_press: root.parent.load_music_button_pressed()
     ScrollLayoutView:
         id: scroll_view
-        size_hint: 0.56,1
+        size_hint: 0.56,0.9
     Playlist:
         id: playlist_view
-        size_hint: 0.44,1
+        size_hint: 0.44,0.9
+    Label:
+        id: current_position_label
+        text: str(root.parent.music_current_position)
+        size_hint: 0.1,0.04
+    Slider:
+        id: music_time
+        min: 0
+        max: 100
+        value: root.parent.music_current_position
+        size_hint: 0.4,0.04
+    Label:
+        id: music_length_label
+        text: str(root.parent.music_length)
+        size_hint: 0.1,0.04
         
 <StackLayoutView>:
     

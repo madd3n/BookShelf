@@ -15,7 +15,7 @@ from os import walk
 from kivy.core.audio import SoundLoader
 from kivy import platform
 from kivy.properties import Clock
-from jnius import autoclass
+#from jnius import autoclass
 import os
 
 class MainWidget(RelativeLayout):
@@ -35,10 +35,20 @@ class MainWidget(RelativeLayout):
     active_button = None
     current_playlist_song = 0
     changing_music = False
+    music_length_label = ""
+    music_length = 0
+    music_current_position = 0
 
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
-        
+
+        if(platform == "android"):
+            from android.permissions import request_permissions, Permission
+            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
+            self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
+        else:
+            self.dir_to_search = "Music/"
+
     def on_toggle_button_state(self, widget):
         if widget.state == "normal":
             self.create_playlist = False
@@ -49,14 +59,6 @@ class MainWidget(RelativeLayout):
 
     def load_music_button_pressed(self):
         self.reset_information()
-
-        if(platform == "android"):
-            from android.permissions import request_permissions, Permission
-            request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
-            self.dir_to_search = os.path.join(os.getenv('EXTERNAL_STORAGE'), 'Music')
-        else:
-            self.dir_to_search = "Music/"
-
         self.MUSIC = not self.create_playlist
         self.list_all_files()
         self.load_content()
@@ -98,10 +100,6 @@ class MainWidget(RelativeLayout):
             self.playing_music_dir = self.dir_to_search + self.find_music_in_playlist(instance)
             self.playing_music = SoundLoader.load(self.playing_music_dir)
 
-            self.playing_music.bind(on_play=self.status_update)
-            self.playing_music.bind(on_stop=self.status_update)
-            Clock.schedule_interval(self.status_update, .1)
-
             if(self.music_volume > 1):
                 self.music_volume = self.music_volume / 100
 
@@ -112,7 +110,12 @@ class MainWidget(RelativeLayout):
             self.active_button.background_color = [1,0,0,1]
 
             self.playing_music.volume = self.music_volume
+            self.music_length_label = str(self.playing_music.length/60)
+            self.music_length = self.playing_music.length
             self.playing_music.play()
+            self.ids.main_grid.ids.music_length_label.text = self.get_music_time(self.playing_music.length)
+            self.ids.main_grid.ids.music_time.max = int(self.playing_music.length)
+            Clock.schedule_interval(self.status_update, 1)
         else:
             MediaPlayer = autoclass('android.media.MediaPlayer')
             mPlayer_norm = MediaPlayer()
@@ -121,14 +124,24 @@ class MainWidget(RelativeLayout):
             mPlayer_norm.prepare()
             mPlayer_norm.start()
 
+    def get_music_time(self, seconds):
+        minutes = seconds // 60
+        seconds %= 60
+        return "%02i:%02i" % (minutes, seconds)
+
     def status_update(self, instance):
         status = self.playing_music.status
-        if status == 'stop' and not self.changing_music:
+        if status == 'stop':
             self.changing_music = True
-        #elif status == 'play':
-        #    s = ''
-            #self.user_stopped = False
-        #else:
+        elif status == 'play':
+            if(self.music_current_position < self.playing_music.length):
+                self.music_current_position += 1 
+                self.ids.main_grid.ids.music_time.value = self.music_current_position
+                self.ids.main_grid.ids.current_position_label.text = str(self.get_music_time(self.music_current_position))
+            else:
+                #Change music
+        else:
+            print("Music Ended")
 
     def add_to_playlist(self, instance):
         song = Button(text=instance.text, size_hint=(1,None), size=(dp(100),dp(50)))
